@@ -1,7 +1,19 @@
-## Defn
+# codeConcepts
+
+## Diff b/w Lib and a framework
+
+
+## CORS
+
+
+## EXPRESS
+
+## DOT-ENV
+
+## MONGOOSE
+- Defn
 - Mongoose is a helperlib, which helps to write MongoDb validation, casting and business boilerplate
 - Generally used for for object modeling
-
 
 ```javascript
 // 1. import the lib
@@ -21,19 +33,27 @@ const cars = new Car({ name: "jaguar" });
 // save
 cars.save().then(() => console.log("Super cool car"));
 ```
-
-<!-- timestamp -->
+### timestamp
 - passed as a second argument. i.e after the model creation add {timestamps:true} as shown below.
 - `{Model..},{timestamps:true}` // this results in addition of 2 properting in your schema.
 - results in addition of 2 properties in the schema
     - createdAt
     - updatedAt
-
-<!-- Relation -->
+### Relation
 - how to add/refrence otherSchemas in a Schema
-    - `type:Mongoose.Schema.Types.ObjectId`, always takes a ` ref:"User" `.
-    - directly refrence to a type in anArray, `type:[UserSchema]`
-
-<!-- Enum -->
+- `type:Mongoose.Schema.Types.ObjectId`, always takes a ` ref:"User" `.
+- directly refrence to a type in anArray, `type:[UserSchema]`
+### Enum
 - provides predefined options for a field.
 - `enum:['M','F']`
+
+
+
+
+## NODEMON
+This just restarts the nodeserver after a change
+- `npm i nodemon -D`
+
+
+
+
