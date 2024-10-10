@@ -240,11 +240,46 @@
             const person = { name: "Alice", age: 25 };
             display(person); // Output: Name: Alice, Age: 25
             ```
-
-- Declare & Invoke
-- Parameters & Arguments
-- Return
+- Function Return
+    - `return` statement is used to stop the execution of a function and return a value to the function.
+    - return 'expression';    // if 'expression' is omitted, function returns `undefined`
+    - returning functions
+        - where functions can return other functions, which is useful for creating the higherOrder functions.
+        - ```javascript
+            function multiply(num1){
+                return function(num2){
+                    return num1*num2
+                }
+            }
+            const double = multiply(2);
+            console.log(double(5))
+            ```
+    - Asynchronous function
+        - return statement used to return a promise
+        - ```javascript
+            async function fetchData() {
+            let response = await fetch('https://api.example.com/data');
+            let data = await response.json();
+            return data;
+            }
+            fetchData().then(data => console.log(data));
+            ```
 - Expressions
+    - expression is a way to define a function within an expression, rather than as a standalone project.
+    - Anonymous function expression
+        - ```javascript
+            const greet = function(name){
+            return `Hello ${name}..!`;
+            }
+            ```
+    - Named function expression
+        - ```javascript
+            const factorial = function fact(n) {
+            if (n <= 1) return 1;
+            return n * fact(n - 1);
+            };
+            console.log(factorial(5)); // Output: 120
+        ```
 
 ### Objects
 
