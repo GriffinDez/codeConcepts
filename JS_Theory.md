@@ -282,6 +282,33 @@
         ```
 
 ### Objects
+- An object is a collection of properties, where each property is defined as a key-value pair. The key is a string (also called a property name), and the value can be any data type, including another object or a function.
+
+- Creating Objects
+    - Object Literals
+        ```javascript
+            const person = {
+                firstName:'Abc',
+                lastName:'xyz',
+                age:30,
+            }
+        ```
+
+    - using `new Object()`
+    - using constructor function
+        ```javascript
+            function Person(firstName, lastName, age){
+                this.firstName = firstName;
+                this.lastName = lastName;
+                this.age = age;
+            }
+            const person1 = new Person('Abc', 'xyz', 20);
+        ```
+- Accessing Object Properties
+    - using dot/Bracket Notation
+    - `console.log(person.firstName)`   // Dot Notation
+    - `console.log(person['firstName'])`  //Bracket Notation
+- Modifying
 
 ### Conditional Statements
 - Switch
@@ -299,22 +326,17 @@
 #### Local Scope
 #### callBack Functions
 #### HigherOrder Functions
-#### Array iterators
-#### forEach
-#### map
-#### filter
-#### find
-#### reduce
 #### Math Object
 #### Date Object
 
 
 ## JS_DOM
 ### window and document
-### GetElementById
-### GetElementsByTagName
-### GetElementByClassName
-### QuerySelector & QuerySelectorAll
+### selectors
+- GetElementById
+- GetElementsByTagName
+- GetElementByClassName
+- QuerySelector & QuerySelectorAll
 ### Navigate the DOM
 - Childern
 - parentElement
