@@ -318,14 +318,232 @@
 
 ### Misc
 #### Template Literals
+ES6 feature, ``(backticks) encloses the string.
+- to create complex strings
+- improves code readiblity.
+
 #### Value vs Reference
+value(Primitive dataTypes), like Numbers, String, Boolean, null, undefined, Symbol, BigInt... where the **copy** of the value is created.
+- the change does not affects the original variable.
+**NOTE**: Values, are stored directly in the variable.
+```javascript
+let a = 5;
+let b = a; // b is a copy of a
+b = 10;
+
+console.log(a); // Outputs: 5
+console.log(b); // Outputs: 10
+```
+================
+
+RefrenceType___like Objects,Arrays,Functions. 
+- where the ref to the same object is created in the memory.
+- this affects the original array
+**NOTE**: stores the refrence of the actual data. Multiple variables can refrence the same object.
+```javascript
+let obj1 = { name: "Alice" };
+let obj2 = obj1; // obj2 is a reference to obj1
+obj2.name = "Bob";
+
+console.log(obj1.name); // Outputs: Bob
+console.log(obj2.name); // Outputs: Bob
+```
 #### Null and Undefined
+- Undefined, where the variable has been declared but not initialized.
+    - typeOf undefined    // undefined
+    - if a variable has not been initialized or if a function did not returns a value.
+
+- null, represents the intentional absence of any object value.
+    - typeOf null    // Object
+    - explicitly indicates the variable to be empty.
+
 #### Truthy & Falsy
+Falsy___false, 0, -0, 0n, ""/''/``, null, undefined, NaN
+Truthy___true, NonZeroNumbers, NonEmptyStrings, Objects, Functions.
+
 #### Ternary Operator
+- concise way to perform conditional operations.
+- ifcondition ? returnIfTrue : returnIfFalse
+- Readability__consider using if_else statements
+- avoid Nesting, 
+
 #### GlobalScope
+- Global Scope is the outermost scope which is accessible from anywhere in the code. both from inside and outside the function.
+
+- Declaration
+    Variables declared outside any function/block are in global scope.
+    `var globalVar = "I'm global"`;
+- Accessiblity
+    - can be accessed from any part of the code,
+    ```javascript
+    function showGloVar(){ console.log(globalVar) }
+    showGloVar()
+    ```
+- Potential issues
+    - Name collisions, since global variablesa are accessible anywhere, the risk of unintentionally modifying the same variable.
+    - Memory Usuage, global variables remain in memory for lifetime of the application, which leads to the higher memory usuage.
+- Best Practices
+    - Minimize the use of global variables to avoid the conflicts of memory issues.
+    use localScope whenever possible to limit the variable's accessiblity and lifespan.
+
 #### Local Scope
+- refers to the scope confined within a function.
+- variables declared within a function are only accessible within that function and cannot be accessed from outside it.
+- Declaration
+    - variables declared inside the function using var, let, const in global scope.
+    - ```javascript
+        function myFunction() {
+        var localVar = "I'm local!";
+        console.log(localVar); // Outputs: I'm local!
+        }
+        console.log(localVar); // Error: localVar is not defined
+        ```
+- Accessibility
+    - local variables can only be accessed within the function where they are declared.
+- Purpose
+    - Encapsulation
+        - with the local scopes, we can keep the variables confined to the function they are used in.
+        - encapsulation, prevents the interference with other variables within a function of a program.
+    - Avoiding name conflict
+        - as we can have the variables with same names to be existed in different function with having a clash.
+    - Memory management
+        - as it is created when the function is called and destroyed when it the function exists.
+
+#### Function Vs Block Scope
+    - Before ES_6, it was globalScope and FunctionScope.
+    - With ES_6, this introduced Block Scope => let & const, which allows the variable to be scoped within the blocks. i.e, `{}`
+        - Here, blockScoped is only accessible within the `if` or `for` block.
+        - trying to access the blockscoped outside the block, it throws the RefrenceError.
 #### callBack Functions
+- callback function, a function which is being passed as an argument to the another function, and is executed after the operation has been completed.
+- used to handle asynchronous functions, as such this ensures the code is being executed only after the another piece of code has finished its execution.
+
+Purpose of callback
+- Handling of Asynchronous Operations
+    - js is single threaded, means this performs only one operation at a time.
+    - callback allows us to handle operations like fetching data from a server without blocking the main thread. ex:_ readingFiles, interacting with Databases etc..
+- creatin reusuable and Modular code
+    - callbacks allows functions to be more flexible and reusuable. which enables us to pass different functions such as to make the code more modular.
+    - ```javascript
+        function fetchData(callback){
+            setTimeout(()=>{
+                let data = 'Data from Server';
+                callback(data)
+            }, 2000)
+        }
+        function displayData(data){
+            console.log(data);
+        }
+        fetch(displayData)
+        ```
+- `fetchData` is a function that simulates fetching data from a server. It takes a callback function as an argument.
+- `setTimeout` is used to mimic a delay (asynchronous operation). After 2 seconds, it calls the `callback` function with the fetched data.
+- `displayData` is a callback function that logs the data to the console.
+- `fetchData(displayData)` passes `displayData` as a callback to fetchData.
+
+>Handling Errors
+- by `error-first` callback pattern, where the first argument of the callback function is an error Object, 2nd is the result.
+- > SameExample with Error Handling
+    - ```javascript
+        function fetchData(callback) {
+          setTimeout(() => {
+            let error = null;
+            let data = "Data from server";
+
+            if (!data) {
+              error = "No data found";
+            }
+
+            callback(error, data);
+          }, 2000);
+        }
+
+        function handleResponse(error, data) {
+          if (error) {
+            console.error("Error:", error);
+          } else {
+            console.log("Data:", data);
+          }
+        }
+
+        fetchData(handleResponse); // After 2 seconds, logs         "Data: Data from server"
+        ```
+> Using callback with Higher Order Functions
+- HigherOderFunction, which take other functions as arguments or return the functions as the result.
+- callback with HOF used to add the functionalty to oexecute the specific tasks.
+- ```javascript
+    function createMultiplier(factor) {
+    return function (number) {
+    return number * factor;
+        };
+    }
+    const double = createMultiplier(2);
+    const triple = createMultiplier(3);
+
+    console.log(double(5)); // 10
+    console.log(triple(5)); // 15
+    ```
+- Callbacks are used to handle asynchronous operations, creating the reusuable code which ensures the code is being executed in the correct order.
+
 #### HigherOrder Functions
+- js feature which takes other functions as an argument or returns the functions as their result.
+- > What is the Higher Order function
+    - which takes 1 or more function as arguments
+    - Return the function as its result.
+- > Why HigherOrder functions.
+    - Reusablity
+        - HigherOrderFunction, promote code reuse by abstracting common patterns and operations.
+    - Functional Programming
+        - which makes the code more declarative and concise.
+    - Asynchronous Operations
+        - used to handle Async Operations like promises and event listeners.
+- > Examples of Higher Order Functions
+    - ArrayMethods, `map(), filter(), reduce()` are some of the methods of HOF.
+        - used to test each element of an array based on certain condition.
+        - takes function as an argument.
+        - results in the transformed array of data
+    - Event Handlers
+        - used to handle and verify userInput, userAction and browserAction
+        - because they take faunction as args, and executes it when a certain event occurs.
+        - ```javascript
+            document.getElementById("myButton").addEventListener("click", function() {
+            alert("Button was clicked!");
+            });
+            ```
+        - When you use `addEventListener`, you pass it a function (callback) to execute when the event happens.
+        - The function passed to `addEventListener` is a callback function.
+        - This makes `addEventListener` a higher-order function since it's accepting another function as an argument.
+        - Such that, each time the button is clicked, the `addEventListener` HOF executes the callback function, demonstrating the higher-order nature.
+    - Customized HOF
+        - ```javascript
+            function applyDiscount(discount) {
+            return function (price) {
+            return price - price * discount;
+                };
+            }
+
+            const tenPercentOff = applyDiscount(0.10);
+            console.log(tenPercentOff(100)); // 90
+            console.log(tenPercentOff(50));  // 45
+            ```
+        - applyDiscount is a higher-order function.
+        - It takes a discount rate and returns a new function that applies the discount to a given price.
+    - Generally used to handle callbackFunctions
+        - ```javascript
+            function fetchData(callback) {
+            setTimeout(() => {
+            let data = "Data from server";
+            callback(data);
+                }, 1000);
+            }
+
+            function handleData(data) {
+            console.log(data);
+            }
+            fetchData(handleData);
+            ```
+        - Here, fetchData is a higher-order function that takes a callback and executes it after fetching data asynchronously.
+
 #### Math Object
 #### Date Object
 
@@ -372,6 +590,61 @@
 ### Events_'Scroll'
 ### Events_'ReSize'
 
+## ES_version
+### ES_6(ECMAScript 2015)
+### ES_7(ECMAScript 2016)
+- Exponentiation Operator(**)
+    - `let result = 2**3` // 8
+- Array.prototype.includes
+    - `let arr = [1,2,3]; console.log(arr.includes(2))`
+### ES_8(ECMAScript 2017)
+- Async/Await
+    ```javascript
+    async function fetchData() {
+    let response = await fetch('url');
+    let data = await response.json();
+    return data;
+    }
+    ```
+- Object.values, Object.entries
+    ```javascript
+    let obj = { a: 1, b: 2 };
+    console.log(Object.values(obj)); // [1, 2]
+    console.log(Object.entries(obj)); // [['a', 1], ['b', 2]]
+    ```
 
+### ES_9(ECMAScript 2018)
+- Rest/Spread
+- Asynchronous Iteration
+- promise.prototype.finally
+
+### ES_10(ECMAScript 2019)
+- Array.prototype.flat, Array.prototype.flatMap
+- Object.fromEntries
+- String.prototype.trimStart, String.prototype.trimEnd
+
+### ES_11(ECMAScript 2020)
+- Optional Chaining(?.)
+- Nullish Coalescing Operator(??)
+- Dynamic Import
+
+### ES_12(ECMAScript 2021)
+- Logical Assignment Operator
+- Numeric Separators
+- String.prototype.ReplaceAll
+
+### ES_13(ECMAScript 2022)
+- Top-Level Await
+- class Fields
+- Private Method and Fields
+
+### ES_14(ECMAScript 2023)
+- Array.prototype.toSorted
+- Array.prototype.toReserved
+- Array.prototype.toSpliced
+
+### ES_15(ECMAScript 2024)
+- RegExp Match Indices
+- Array.prototype.with
 
 ## NodeJS
