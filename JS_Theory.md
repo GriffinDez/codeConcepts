@@ -545,7 +545,80 @@ Purpose of callback
         - Here, fetchData is a higher-order function that takes a callback and executes it after fetching data asynchronously.
 
 #### Math Object
+- Properties
+    - Math.PI
+- Methods
+    - `Math.abs(x)`, returns the absolute of a number
+    - `Math.ceil(x)`, Returns the smallest integer greater than or equal a number.
+    - `Math.floor(x)`, returns the largest integer less than or equal to a number.
+    - `Math.round(x)`, returns the value of a number rounded to the nearest integer.
+    - `Math.max(x,y,z,...)`, Returns the largest of zero or more numbers.
+    - `Math.min(x,y,z,...)`, Returns the smallest of zero or more numbers.
+    - `Math.random()`, Returns the pseudo-number b/w 0-1
+    - `Math.sqrt(x)`, Returns the positive square root of a number
+    - `Math.pow(base, exponent)`, Returns the base to the exponent of the power
+    - `Math.log(x)`, Returns natural logarithm (base E)
+
+- > NOTE
+    - we have to use the Math object directly, without creating an instance
+    - `Math` obj covers a vast area of Mathematical Ops, i.e. trigno to logarithms...
+    
+
 #### Date Object
+- current Date & time
+    - `const now = new Date(); c.log(now)`, outputs current date & time
+- Specific Date & time
+    - `const specificDate = new Date('2024-10-17T22:23:00');  c.log(specificDate)`
+- Date Components
+    - `const dateComponents = new Date(2024, 9, 17, 22, 23, 0, 0);  c.log(dateComponents)`
+
+- > Date Methods
+- Get Methods
+    - `getDate()`: Returns the day of the month (1-31).
+    - `getMonth()`: Returns the month (0-11).
+    - `getFullYear()`: Returns the year (4 digits).
+    - `getHours()`: Returns the hours (0-23).
+    - `getMinutes()`: Returns the minutes (0-59).
+    - `getSeconds()`: Returns the seconds (0-59).
+    - `getMilliseconds()`: Returns the milliseconds (0-999).
+    - `getTime()`: Returns the time value in milliseconds since January 1, 1970.
+- > Set Methods
+    - `setDate(day)`: Sets the day of the month.
+    - `setMonth(month)`: Sets the month (0-11).
+    - `setFullYear(year)`: Sets the full year.
+    - `setHours(hours)`: Sets the hours (0-23).
+    - `setMinutes(minutes)`: Sets the minutes (0-59).
+    - `setSeconds(seconds)`: Sets the seconds (0-59).
+    - `setMilliseconds(milliseconds)`: Sets the milliseconds (0-999).
+    - `setTime(milliseconds)`: Sets the time in milliseconds since January 1, 1970.
+- > Formating Dates
+    - `toString()` and `toISOString()`
+        - toString(): Returns a string representation of the date.
+        - toISOString(): Returns the date in ISO 8601 format.
+    - `toDateString()` and `toTimeString()`:
+        - toDateString(): Returns the date portion of the date.
+        - toTimeString(): Returns the time portion of the date.
+- > Manipulating Dates
+    ```javascript
+        const date = new Date();
+        date.setDate(date.getDate() + 5); // Adds 5 days
+        console.log(date);
+        
+        date.setHours(date.getHours() - 2); // Subtracts 2 hours
+        console.log(date);
+    ```
+- > Timezone & locale 
+    ```javascript
+        const date = new Date();
+        console.log(date.toLocaleDateString('en-US')); // Outputs date in 'MM/DD/YYYY' format for the US locale
+        console.log(date.toLocaleTimeString('en-US')); // Outputs time in 'HH:MM:SS AM/PM' format for the US locale
+    ```
+- > NOTE
+    - Learn different ways to initiate Date Objects
+    - Get and Set Methods, used crucial for extracting and manipulating date Components
+    - Formatting, Practice more methods
+    - understand how Date object handles timezone and offsets.
+
 
 
 ## JS_DOM
