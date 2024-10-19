@@ -624,18 +624,180 @@ Purpose of callback
 ## JS_DOM
 ### window and document
 ### selectors
-- GetElementById
-- GetElementsByTagName
-- GetElementByClassName
-- QuerySelector & QuerySelectorAll
-### Navigate the DOM
-- Childern
-- parentElement
-- nextSibiling
-- previousSibiling
-- nextElementSibling
+- `getElementById`, Selects a single element by its ID.
+- `getElementsByTagName`, Selects all elements with a specified tag name. Returns a live HTMLCollection.
+- `getElementByClassName`, Selects all elements with a specified class. Returns a live HTMLCollection.
+- `querySelector`, Selects the first element that matches a CSS selector.
+- `querySelectorAll`, Selects all elements that match a CSS selector. Returns a static NodeList.
+
+- useCase & Examples
+    - Changing text Content
+        - `const ele = document.getElementById('myId'); ele.textContent = 'NewTextContent'`
+    - Modifying CSS
+        - `const ele = document.querySelector('.myClass'); ele.style.backgroundColor = 'blue'`
+    - Adding/Removing classes
+        - ```javascript
+            const element = document.querySelector('.myClass');
+            element.classList.add('newClass');
+            element.classList.remove('oldClass');
+        ```
+    - iterating over NodeList
+        - ```javascript
+            const elements = document.querySelectorAll('.myClass');
+            elements.forEach(element => {
+              element.style.color = 'red';
+            });
+        ```
+- > Performance
+    - ** Always ensure the elements exist before accessing them.
+    - `getElementById`: Fastest as it directly accesses elements.
+    - `querySelector` and `querySelectorAll`: More flexible but slightly slower due to CSS parsing. wide support, cross browser compatiblity
+    - `getElementsByClassName` and `getElementsByTagName`: Return live collections which update dynamically; this can impact performance with large sets.
+
+- combining all the methods for more complex selections
+    - by using Id
+        - `const parentElement = document.getElementById('parentId');`
+
+### Traversing the DOM
+- Traversing through DOM, allows us to access, modify and manage the relationship b/w the elements.
+- Purpose
+    - Access & manipulate elements
+    - Respond to user input & Events
+    - alter the layout and content in realTime.
+- > upwardTraversal (Accessing Parents)
+    - parentNode, Access the parent element of a node.
+    - closest(), gets the closest ancestor which matches the given CSS Selector.
+
+- > DownwardsTraversal (Accessing Children)
+    - `childNodes`, Returns the nodeList of all childNodes, **including Text Node.**
+    - `children`, returns the HTML collection of all the child elements, **excluding text nodes**
+
+- > SidewaysTraversal (Accessing Sibling)
+    - `nextSibling`, Access the next sibling node.
+    - `previousSibling`, Access the previous sibling node.
+    - ```Javascript
+        // Example DOM structure
+        /*
+        <div id="parent">
+          <div id="child1">Child 1</div>
+          <div id="child2">Child 2</div>
+        </div>
+        */
+
+        let parent = document.getElementById('parent');
+        let child1 = parent.children[0]; // Accessing the first child element
+        console.log('First Child:', child1.textContent);
+
+        let child2 = child1.nextSibling; // Accessing the next sibling node
+        while (child2 && child2.nodeType != 1) { 
+            child2 = child2.nextSibling; // Skip text nodes
+        }
+        console.log('Next Sibling:', child2.textContent);
+    ```
+- > Always check for ExistenceOfTheElement
+    - ```javascript
+        let element = document.getElementById('elementID');
+        if (element) {
+          // Safe to manipulate element
+        }
+    ```
 ### textContent NodeValue
-### getAttribute(), setAttribute()
+- Defn 
+    - textContent
+        - textContent is a property that represents the text content of a node and its descendants. It includes all text inside the element, including text within child elements.
+        - Used to get or set the text content of an element,
+        - useful for manipulating the text within an element without affecting any nested HTML structure
+        - ```javascript
+            // Selecting an element
+            let element = document.getElementById('myElement');
+
+            // Getting text content
+            console.log(element.textContent);
+
+            // Setting text content
+            element.textContent = 'New Text Content';
+        ```
+    
+    - NodeValue
+        - property that represents the value of a node. For text nodes, it’s the text content. For other node types like attributes and comments, it returns the value of the node.
+        - Used to get or set the value of a node.
+        - useful for text nodes, comments, and attribute nodes.
+        - ```javascript
+            // Creating a text node
+            let textNode = document.createTextNode('Hello World');
+
+            // Getting node value
+            console.log(textNode.nodeValue);
+
+            // Setting node value
+            textNode.nodeValue = 'New Text Content';
+
+            // Working with attribute nodes
+            let attr = document.createAttribute('class');
+            attr.nodeValue = 'new-class';
+        ```
+- Differences
+    - Scope
+        - textContent: Affects the entire text content of an element, including its children.
+        - nodeValue: Typically used with text, comment, and attribute nodes directly.
+    - usuageContext
+        - textContent: Commonly used for elements to read or write their text content.
+        - nodeValue: Used in more specific contexts, like manipulating individual text or attribute nodes.
+
+- > NOTE
+    - performance, `textContent` replaces all text inside an element, which can be more efficient than modifying individual child nodes.
+    - both supports Cross Browser Compatiblity
+    - Security, `textContent` is safer for setting text content since it does not parse HTML, avoiding potential cross-site scripting (XSS) attacks.
+
+### getAttribute()
+- Defn 
+    - getAttribute() is a method in JavaScript used to retrieve the value of a specified attribute from an HTML element. 
+    - returns the value as a string,
+- Purpose
+    - access the value of an attribute of a DOM (Document Object Model) element
+    - generally used when working with dynamic attributes, which might change durning the lifecycle of a web page.
+    - `var attributeValue = ele.getAttribute(attributeNameWhoseValueNeedsToBeFetched);`
+
+- Example
+    - ```
+        > html
+            <a id="myLink" href="https://www.example.com" title="Example Site">Visit Example</a>
+
+        > javascript
+            var link = document.getElementById("myLink");
+            var hrefValue = link.getAttribute("href");
+            console.log(hrefValue); // Outputs: "https://www.example.com"
+    ```
+- Example with Custom attribute
+    - ```
+        > html
+            <div id="myDiv" data-custom-attr="someValue">Hello World</div>
+        > Javascript
+            var div = document.getElementById("myDiv");
+            var customAttrValue = div.getAttribute("data-custom-attr");
+            console.log(customAttrValue); // Outputs: "someValue"
+    ```
+
+### setAttribute()
+- Defn 
+    - method adds a new attribute or changes the value of an existing attribute on the specified element.
+    - Used to dynamically set or update the value of an attribute.
+    - ```javascript
+        // Assuming an element like <div id="myDiv"></div>
+        let element = document.getElementById('myDiv');
+
+        // Set the "class" attribute
+        element.setAttribute('class', 'newClass');
+        console.log(element.className); // Outputs: newClass
+
+        // Set a custom data attribute
+        element.setAttribute('data-value', '456');
+        console.log(element.getAttribute('data-value')); // Outputs: 456
+    ```
+- creates new attributes if it does not exists.
+- sets the attribute's value,
+- custom Data Attribute, need to be prefixed with `data-` used to store data.
+
 ### classList & className
 ### createElement_createTextNode
 - appendChild
